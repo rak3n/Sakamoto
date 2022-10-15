@@ -11,12 +11,12 @@ import TrendingAnime from "./pages/TrendingAnime";
 import WatchAnime from "./pages/WatchAnime";
 import GlobalStyle from "./styles/globalStyles";
 import PageNotFound from "./pages/PageNotFound";
-import { useState } from "react";
+// import { useState } from "react";
 
 function App() {
-  const [metaArr, setMetaArr] = useState({"title": "Sakamoto - Watch Popular Anime Online", "description": "Sakamoto. An ad-free anime streaming site. Catch your favourite shows and movies right here! Help us by contributing to the project on github."})
+  // const [metaArr, setMetaArr] = useState({"title": "Sakamoto - Watch Popular Anime Online", "description": "Sakamoto. An ad-free anime streaming site. Catch your favourite shows and movies right here! Help us by contributing to the project on github."})
   function changeMetaArr(propertyChanged, change){
-    // document.title = change
+    document.title = change
   }
   return (
     <Router>

@@ -34,8 +34,6 @@ function WatchingEpisodes({ confirmRemove, setConfirmRemove }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getData();
-  }, []);
 
   async function getData() {
     setLoading(true);
@@ -84,6 +82,8 @@ function WatchingEpisodes({ confirmRemove, setConfirmRemove }) {
     setConfirmRemove(apiRes.map(() => false));
     setLoading(false);
   }
+    getData();
+  }, [setConfirmRemove]);
 
   function removeAnime(ev) {
     if (!confirmRemove.length) return;

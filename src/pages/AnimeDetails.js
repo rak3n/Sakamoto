@@ -5,6 +5,7 @@ import styled from "styled-components";
 import EpisodeLinksList from "../components/EpisodeLinks/EpisodeLinksList";
 import AnimeDetailsSkeleton from "../components/skeletons/AnimeDetailsSkeleton";
 import useWindowDimensions from "../hooks/useWindowDimensions";
+import { Helmet } from "react-helmet";
 
 function AnimeDetails() {
   let slug = useParams().slug;
@@ -13,6 +14,9 @@ function AnimeDetails() {
   const [expanded, setExpanded] = useState(false);
   const { width } = useWindowDimensions();
   const [localStorageDetails, setLocalStorageDetails] = useState(0);
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [banner, setBanner] = useState("");
 
   useEffect(() => {
     async function getAnimeDetails() {
@@ -25,6 +29,19 @@ function AnimeDetails() {
       setLoading(false);
       setAnimeDetails(res.data);
       getLocalStorage(res.data);
+      setContent((content) => {
+        content = res.data[0].gogoResponse.description.replace("Plot Summary:", "");
+        let len = 200;
+        return content = content.length > len ?
+                  content.substring(0, len - 3) + "..." :
+                  content;
+      });
+      setBanner((banner) => {
+        return banner = res.data[0].gogoResponse.image;
+      });
+      setTitle((title) => {
+        return title = res.data[0].gogoResponse.title;
+      });
     }
     getAnimeDetails();
   }, [slug]);
@@ -50,6 +67,13 @@ function AnimeDetails() {
 
   return (
     <div>
+      <Helmet>
+        <title>{title}</title>
+        <meta property="description" content= {content}/>
+        <meta property="og:title" content= {title}/>
+        <meta property="og:description" content= {content}/>
+        <meta property="og:image" content={banner} />
+      </Helmet>
       {loading && <AnimeDetailsSkeleton />}
       {!loading && (
         <Content>

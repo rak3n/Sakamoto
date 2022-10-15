@@ -14,7 +14,7 @@ import ServersList from "../components/WatchAnime/ServersList";
 import PlayerContainer from "../components/Wrappers/PlayerContainer";
 import EpisodeLinksList from "../components/EpisodeLinks/EpisodeLinksList";
 
-function WatchAnime({changeMetaArr}) {
+function WatchAnime() {
   let episodeSlug = useParams().episode;
 
   const [episodeLinks, setEpisodeLinks] = useState([]);
@@ -75,7 +75,7 @@ function WatchAnime({changeMetaArr}) {
       }
     }
 
-  async function getEpisodeLinks() {
+    async function getEpisodeLinks() {
       setLoading(true);
       window.scrollTo(0, 0);
       let res = await axios.get(
@@ -130,14 +130,16 @@ function WatchAnime({changeMetaArr}) {
 
   useEffect(()=>{
     async function getAnimeBanner() {
-      let slug = `${episodeLinks[0].titleName.substring(0,
-       episodeLinks[0].titleName.indexOf("Episode"))}`.toLowerCase().replaceAll(" ","-").slice(0, -1);
-      console.log(slug);
+      let slug = episodeSlug.split("-episode")[0];
       let res = await axios.get(
         `${process.env.REACT_APP_BACKEND_URL}api/getanime?link=/category/${slug}`
       );
       setContent((content) => {
-        return content = res.data[0].gogoResponse.description.replace("Plot Summary:", "");
+        content = res.data[0].gogoResponse.description.replace("Plot Summary:", "");
+        let len = 200;
+        return content = content.length > len ?
+                  content.substring(0, len - 3) + "..." :
+                  content;
       })
       setBanner((banner) => {
         return banner = res.data[0].gogoResponse.image;
@@ -145,26 +147,17 @@ function WatchAnime({changeMetaArr}) {
     }
     if(loading===false){
       getAnimeBanner();
-      // changeMetaArr("title", `${episodeLinks[0].titleName.substring(
-      //   0,
-      //   episodeLinks[0].titleName.indexOf("Episode")
-      // )} - ${" " +
-      // episodeLinks[0].titleName.substring(
-      //   episodeLinks[0].titleName.indexOf("Episode")
-      // )}`)
-      // console.log("Hello")
     }
-  }, [loading])
+  }, [loading, episodeSlug])
 
 
   return (
     <div>
       <Helmet>
         <title>{title}</title>
-        <meta
-          property="og:description"
-          content= {content}
-        />
+        <meta property="description" content= {content}/>
+        <meta property="og:title" content= {title}/>
+        <meta property="og:description" content= {content}/>
         <meta property="og:image" content={banner} />
       </Helmet>
       {loading && <WatchAnimeSkeleton />}
