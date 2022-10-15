@@ -15,7 +15,8 @@ function Home({changeMetaArr}) {
   const [confirmRemove, setConfirmRemove] = useState([]);
   const { width } = useWindowDimensions();
   const title = "Sakamoto - Watch Popular Anime Online";
-  const content= "Sakamoto - Watch Popular Anime Online";
+  const content= `Sakamoto. An ad-free anime streaming site. Catch your favourite shows and movies right here! 
+            Help us by contributing to the project on github.`;
   const image = "https://media.discordapp.net/attachments/1009328245533065288/1009328327909199904/8.png";
   // React.useEffect(()=>{
   //   changeMetaArr("title", title)
@@ -46,10 +47,9 @@ function Home({changeMetaArr}) {
     <div>
       <Helmet>
         <title>{title}</title>
-          <meta
-            property="og:description"
-            content= {content}
-          />
+          <meta property="description" content= {content}/>
+          <meta property="og:title" content= {title}/>
+          <meta property="og:description" content= {content}/>
         <meta property="og:image" content={image} />
       </Helmet>
       <HomeDiv>

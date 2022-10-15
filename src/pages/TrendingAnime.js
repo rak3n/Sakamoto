@@ -29,10 +29,9 @@ function TrendingAnime({changeMetaArr}) {
     <div>
       <Helmet>
         <title>{title}</title>
-        <meta
-          property="og:description"
-          content= {content}
-        />
+          <meta property="description" content= {content}/>
+          <meta property="og:title" content= {title}/>
+          <meta property="og:description" content= {content}/>
         <meta property="og:image" content={image} />
       </Helmet>
       {loading && <SearchResultsSkeleton name="Trending Anime" />}
